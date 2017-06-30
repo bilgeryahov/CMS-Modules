@@ -71,7 +71,7 @@ const Login = (function(){
                 }
                 else if($update === 'USER 0'){
 
-
+                    console.log('Login: user is not here.');
                 }
                 else if($update === 'ERROR 1'){
 
