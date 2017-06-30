@@ -43,7 +43,7 @@ const CustomMessage = (function(){
                 $self._templatePath, $self._placeholderName, {}
             );
 
-            $self._template.prepare();
+            $self._template.prepareMain();
         },
 
         /**
