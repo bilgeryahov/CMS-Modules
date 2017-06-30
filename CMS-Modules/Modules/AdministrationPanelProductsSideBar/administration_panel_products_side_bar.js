@@ -12,7 +12,7 @@ const AdministrationPanelProductsSideBar = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/AdministrationPanelProductsSideBar/administration_panel_products_side_bar.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/AdministrationPanelProductsSideBar/administration_panel_products_side_bar.html',
         _placeholderName: 'AdministrationPanelProductsSideBarPlaceholder',
         _template: null,
 

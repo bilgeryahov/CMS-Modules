@@ -12,7 +12,7 @@ const QuoteOfTheDay = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/QuoteOfTheDay/quote_of_the_day.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/QuoteOfTheDay/quote_of_the_day.html',
         _placeholderName: 'QuoteOfTheDayPlaceholder',
         _template: null,
 

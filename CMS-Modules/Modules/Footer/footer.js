@@ -12,7 +12,7 @@ const Footer = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/Footer/footer.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/Footer/footer.html',
         _placeholderName: 'FooterPlaceholder',
         _template: null,
 

@@ -12,7 +12,7 @@ const ContactDetails = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/ContactDetails/contact_details.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/ContactDetails/contact_details.html',
         _placeholderName: 'ContactDetailsPlaceholder',
         _template: null,
 

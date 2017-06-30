@@ -12,7 +12,7 @@ const AdministrationPanelProductsCategories = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/AdministrationPanelProductsCategories/administration_panel_products_categories.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/AdministrationPanelProductsCategories/administration_panel_products_categories.html',
         _placeholderName: 'AdministrationPanelProductsCategoriesPlaceholder',
         _template: null,
 

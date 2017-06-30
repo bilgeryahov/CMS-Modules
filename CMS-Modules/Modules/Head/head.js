@@ -12,7 +12,7 @@ const Head = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/Head/head.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/Head/head.html',
         _placeholderName: 'HeadPlaceholder',
         _template: null,
 

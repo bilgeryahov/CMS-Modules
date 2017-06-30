@@ -12,7 +12,7 @@ const DeliveriesPageStaticContent = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/DeliveriesPageStaticContent/deliveries_page_static_content.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/DeliveriesPageStaticContent/deliveries_page_static_content.html',
         _placeholderName: 'DeliveriesPageStaticContentPlaceholder',
         _template: null,
 

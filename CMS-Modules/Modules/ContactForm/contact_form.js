@@ -12,7 +12,7 @@ const ContactForm = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/ContactForm/contact_form.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/ContactForm/contact_form.html',
         _placeholderName: 'ContactFormPlaceholder',
         _template: null,
 

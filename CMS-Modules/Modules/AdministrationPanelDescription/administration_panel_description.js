@@ -12,7 +12,7 @@ const AdministrationPanelDescription = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/AdministrationPanelDescription/administration_panel_description.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/AdministrationPanelDescription/administration_panel_description.html',
         _placeholderName: 'AdministrationPanelDescriptionPlaceholder',
         _template: null,
 

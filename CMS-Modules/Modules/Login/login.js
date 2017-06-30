@@ -12,7 +12,7 @@ const Login = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/Login/login.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/Login/login.html',
         _placeholderName: 'LoginPlaceholder',
         _template: null,
 

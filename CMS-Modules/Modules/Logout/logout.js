@@ -12,7 +12,7 @@ const Logout = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/Logout/logout.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/Logout/logout.html',
         _placeholderName: 'LogoutPlaceholder',
         _template: null,
 

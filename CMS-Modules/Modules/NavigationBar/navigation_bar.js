@@ -12,7 +12,7 @@ const NavigationBar = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/NavigationBar/navigation_bar.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/NavigationBar/navigation_bar.html',
         _placeholderName: 'NavigationBarPlaceholder',
         _template: null,
 

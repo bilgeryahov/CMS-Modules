@@ -12,7 +12,7 @@ const IndexPageStaticContent = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/IndexPageStaticContent/index_page_static_content.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/IndexPageStaticContent/index_page_static_content.html',
         _placeholderName: 'IndexPageStaticContentPlaceholder',
         _template: null,
 

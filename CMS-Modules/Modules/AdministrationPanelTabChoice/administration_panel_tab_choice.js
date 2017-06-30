@@ -12,7 +12,7 @@ const AdministrationPanelTabChoice = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/AdministrationPanelTabChoice/administration_panel_tab_choice.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/AdministrationPanelTabChoice/administration_panel_tab_choice.html',
         _placeholderName: 'AdministrationPanelTabChoicePlaceholder',
         _template: null,
 

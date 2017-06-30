@@ -12,7 +12,7 @@ const Loader = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/Loader/loader.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/Loader/loader.html',
         _placeholderName: 'LoaderPlaceholder',
         _template: null,
 

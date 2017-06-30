@@ -12,7 +12,7 @@ const CustomMessage = (function(){
 
     const Logic = {
 
-        _templatePath: './Modules/CustomMessage/custom_message.html',
+        _templatePath: './CMS-Modules/CMS-Modules/Modules/CustomMessage/custom_message.html',
         _placeholderName: 'CustomMessagePlaceholder',
         _template: null,
 
