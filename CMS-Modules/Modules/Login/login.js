@@ -25,6 +25,9 @@ const Login = (function(){
         // Login's Auth Observer
         _authObserver: {},
 
+        // Observer for Auth Display State
+        _authAttemptDisplayObserver: {},
+
         /**
          * Initializes the main functionality.
          *
@@ -68,19 +71,40 @@ const Login = (function(){
                 }
                 else if($update === 'USER 0'){
 
-                    $self.displayLogin();
+
                 }
                 else if($update === 'ERROR 1'){
 
                     // Problem while logging in!
                     console.error('Login: ' + FirebaseAuthenticationManager.getAuthError());
                     CustomMessage.showMessage(FirebaseAuthenticationManager.getAuthError());
-                    $self.displayLogin();
                 }
             };
 
             // Add my Auth Observer as an observer to FirebaseAuthenticationManager's ObserverManager.
             FirebaseAuthenticationManager.getAuthObserverManager().addObserver($self._authObserver);
+
+            // Create the Auth Attempt Display Observer.
+            $self._authAttemptDisplayObserver = new Observer();
+
+            // Set-up.
+            $self._authAttemptDisplayObserver.getUpdate = function ($update) {
+
+                switch ($update){
+
+                    case 'LoginAttemptStart':
+                        $self._template.makeInvisible();
+                        break;
+
+                    case 'LoginAttemptFinish':
+                        $self._template.makeVisible();
+                        break;
+                }
+            };
+
+            // Add.
+            FirebaseAuthenticationManager.getAuthAttemptDisplayObserverManager()
+                .addObserver($self._authAttemptDisplayObserver);
         },
 
         /**
@@ -153,7 +177,6 @@ const Login = (function(){
             )
             {
 
-                $self.displayLoader();
                 FirebaseAuthenticationManager.login($self._inputEmail.value, $self._inputPassword.value);
             }
             else{
@@ -161,32 +184,6 @@ const Login = (function(){
                 console.error('Login.attemptLogin(): Problem with validation of the input fields.');
                 CustomMessage.showMessage('Въвели сте некоректна информация или символи.');
             }
-        },
-
-        /**
-         * Makes sure that the Login (form or module) is displayed when needed.
-         *
-         * @return void.
-         */
-
-        displayLogin(){
-
-            const $self = this;
-            $self._template.makeVisible();
-            Loader.hideMe();
-        },
-
-        /**
-         * Makes sure that the Loader is displayed when needed.
-         *
-         * @return void
-         */
-
-        displayLoader(){
-
-            const $self = this;
-            $self._template.makeInvisible();
-            Loader.showMe();
         }
     };
 
