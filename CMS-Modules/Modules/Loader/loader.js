@@ -16,6 +16,9 @@ const Loader = (function(){
         _placeholderName: 'LoaderPlaceholder',
         _template: null,
 
+        // Observer for Auth Display State
+        _authAttemptDisplayObserver: {},
+
         /**
          * Initializes the main functionality.
          *
@@ -26,6 +29,28 @@ const Loader = (function(){
 
             const $self = this;
             $self.renderTemplate();
+
+            // Create the Auth Attempt Display Observer.
+            $self._authAttemptDisplayObserver = new Observer();
+
+            // Set-up.
+            $self._authAttemptDisplayObserver.getUpdate = function ($update) {
+
+                switch ($update){
+
+                    case 'LoginAttemptStart':
+                        $self._template.makeVisible();
+                        break;
+
+                    case 'LoginAttemptFinish':
+                        $self._template.makeInvisible();
+                        break;
+                }
+            };
+
+            // Add.
+            FirebaseAuthenticationManager.getAuthAttemptDisplayObserverManager()
+                .addObserver($self._authAttemptDisplayObserver);
         },
 
         /**
@@ -43,30 +68,6 @@ const Loader = (function(){
             );
 
             $self._template.displayMain();
-        },
-
-        /**
-         * Show the Loader spinning.
-         *
-         * @return void
-         */
-
-        showMe(){
-
-            const $self = this;
-            $self._template.makeVisible();
-        },
-
-        /**
-         * Hide the Loader.
-         *
-         * @return void
-         */
-
-        hideMe(){
-
-            const $self = this;
-            $self._template.makeInvisible();
         }
     };
 
@@ -75,16 +76,6 @@ const Loader = (function(){
         init(){
 
             Logic.init();
-        },
-
-        showMe(){
-
-            Logic.showMe();
-        },
-
-        hideMe(){
-
-            Logic.hideMe();
         }
     }
 })();
