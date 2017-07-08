@@ -12,10 +12,6 @@ const Head = (function(){
 
     const Logic = {
 
-        _templatePath: './CMS-Modules/CMS-Modules/Modules/Head/head.html',
-        _placeholderName: 'HeadPlaceholder',
-        _template: null,
-
         /**
          * Initializes the main functionality.
          *
@@ -24,25 +20,7 @@ const Head = (function(){
 
         init(){
 
-            const $self = this;
-            $self.renderTemplate();
-        },
 
-        /**
-         * Renders the template.
-         *
-         * @return void
-         */
-
-        renderTemplate(){
-
-            const $self = this;
-
-            $self._template = new Template(
-                $self._templatePath, $self._placeholderName, {}
-            );
-
-            $self._template.displayMain();
         }
     };
 
