@@ -63,6 +63,8 @@ const NavigationBar = (function(){
                 console.error('NavigationBar.getDomElements(): ToggleNavigation is not found!');
                 return false;
             }
+
+            return true;
         },
 
         /**
