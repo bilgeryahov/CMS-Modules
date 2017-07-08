@@ -12,11 +12,8 @@ const NavigationBar = (function(){
 
     const Logic = {
 
-        _templatePath: './CMS-Modules/CMS-Modules/Modules/NavigationBar/navigation_bar.html',
-        _placeholderName: 'NavigationBarPlaceholder',
-        _template: null,
-
         _navDemo: null,
+        _toggleNavigation: null,
 
         /**
          * Initialize the main functionality.
@@ -27,26 +24,88 @@ const NavigationBar = (function(){
         init(){
 
             const $self = this;
-            $self.renderTemplate();
+
+            let $templateInfo = $self.determinePage();
+
+            if(!$self.renderTemplate($templateInfo)){
+
+                return;
+            }
+
+            if(!$self.getDomElements()){
+
+                return;
+            }
+
+            $self.attachDomElementEvents();
+        },
+
+        /**
+         * Gets the elements from the DOM.
+         *
+         * @return boolean
+         */
+
+        getDomElements(){
+
+            const $self = this;
+
+            $self._navDemo = $('NavDemo');
+            if(!$self._navDemo){
+
+                console.error('NavigationBar.getDomElements(): NavDemo is not found!');
+                return false;
+            }
+
+            $self._toggleNavigation = $('ToggleNavigation');
+            if(!$self._toggleNavigation){
+
+                console.error('NavigationBar.getDomElements(): ToggleNavigation is not found!');
+                return false;
+            }
         },
 
         /**
          * Renders the template.
          *
-         * @return void
+         * @param $data
+         *
+         * @return {boolean}
          */
 
-        renderTemplate(){
+        renderTemplate($data){
+
+            const $module = $('NavigationBarModule');
+            const $template = $('NavigationBarTemplate');
+
+            if(!$module || !$template){
+
+                console.error('NavigationBar.renderTemplate(): NavigationBarModule or ' +
+                    'NavigationBarTemplate is not found!');
+                return false;
+            }
+
+            const $source = $template.get('html');
+            const $compiled = Handlebars.compile($source);
+            $module.set('html', $compiled( { pages : $data } ));
+
+            return true;
+        },
+
+        /**
+         * Attaches events to the DOM elements.
+         *
+         * @return void.
+         */
+
+        attachDomElementEvents(){
 
             const $self = this;
 
-            const $pages = $self.determinePage();
+            $self._toggleNavigation.addEvent('click', function () {
 
-            $self._template = new Template(
-                $self._templatePath, $self._placeholderName, {pages: $pages}
-            );
-
-            $self._template.displayMain();
+               $self.toggleNavigationBar();
+            });
         },
 
         /**
@@ -122,16 +181,6 @@ const NavigationBar = (function(){
 
             const $self = this;
 
-            if($self._navDemo === null || typeof $self._navDemo === 'undefined'){
-
-                $self._navDemo = $('NavDemo');
-                if(!$self._navDemo){
-
-                    console.error('NavigationBar.toggleNavigationBar(): NavDemo is not found!');
-                    return;
-                }
-            }
-
             if($self._navDemo.className.indexOf('w3-show') === -1){
 
                 $self._navDemo.className += ' w3-show';
@@ -148,11 +197,6 @@ const NavigationBar = (function(){
         init(){
 
             Logic.init();
-        },
-
-        toggleNavigationBar(){
-
-            Logic.toggleNavigationBar();
         }
     }
 })();
