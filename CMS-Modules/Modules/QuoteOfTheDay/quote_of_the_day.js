@@ -12,10 +12,6 @@ const QuoteOfTheDay = (function(){
 
     const Logic = {
 
-        _templatePath: './CMS-Modules/CMS-Modules/Modules/QuoteOfTheDay/quote_of_the_day.html',
-        _placeholderName: 'QuoteOfTheDayPlaceholder',
-        _template: null,
-
         _listOfQuotes: [],
 
         /**
@@ -37,27 +33,12 @@ const QuoteOfTheDay = (function(){
                 'Нищо, което си струва да бъде научено, не може да бъде преподадено',
                 'Истината рядко е чиста и никога проста.'
             ];
-
-            $self.renderTemplate();
-        },
-
-        /**
-         * Renders the template.
-         *
-         * @return void
-         */
-
-        renderTemplate(){
-
-            const $self = this;
-
             const $quote = $self.getRandomQuote();
 
-            $self._template = new Template(
-                $self._templatePath, $self._placeholderName, {quote: $quote}
-            );
+            if(!$self.renderTemplate($quote)){
 
-            $self._template.displayMain();
+                return;
+            }
         },
 
         /**
@@ -71,6 +52,33 @@ const QuoteOfTheDay = (function(){
             const $self = this;
             let $number = Math.floor((Math.random() * 7));
             return $self._listOfQuotes[$number];
+        },
+
+        /**
+         * Renders the template.
+         *
+         * @param $data
+         *
+         * @return {boolean}
+         */
+
+        renderTemplate($data){
+
+            const $module = $('QuoteOfTheDayModule');
+            const $template = $('QuoteOfTheDayTemplate');
+
+            if(!$module || !$template){
+
+                console.error('QuoteOfTheDay.renderTemplate(): QuoteOfTheDayModule or ' +
+                    'QuoteOfTheDayTemplate is not found!');
+                return false;
+            }
+
+            const $source = $template.get('html');
+            const $compiled = Handlebars.compile($source);
+            $module.set('html', $compiled( { quote : $data } ));
+
+            return true;
         }
     };
 
