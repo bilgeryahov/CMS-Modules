@@ -4,7 +4,7 @@
  * ContactForm module controller.
  *
  * @author Bilger Yahov <bayahov1@gmail.com>
- * @version 1.0.0
+ * @version 2.0.0
  * @copyright © 2017 Bilger Yahov, all rights reserved.
  */
 
@@ -12,17 +12,11 @@ const ContactForm = (function(){
 
     const Logic = {
 
-        _templatePath: './CMS-Modules/CMS-Modules/Modules/ContactForm/contact_form.html',
-        _placeholderName: 'ContactFormPlaceholder',
-        _template: null,
-
         _cfNameElement        : {},
         _cfEmailElement       : {},
         _cfPhoneElement       : {},
         _cfSubjectElement     : {},
         _cfMessageElement     : {},
-
-        _elementsPresent: false,
 
         _cfNameValue          : '',
         _cfEmailValue         : '',
@@ -40,36 +34,17 @@ const ContactForm = (function(){
 
         init(){
 
-            if(!CustomMessage){
+            const $self = this;
+            if(!$self.getDomElements()){
 
-                console.error('ContactForm.init(): CustomMessage module is not present!');
                 return;
             }
 
-            const $self = this;
-
-            $self.renderTemplate();
+            $self.attachDomElementEvents();
         },
 
         /**
-         * Renders the template.
-         *
-         * @return void
-         */
-
-        renderTemplate(){
-
-            const $self = this;
-
-            $self._template = new Template(
-                $self._templatePath, $self._placeholderName, {}
-            );
-
-            $self._template.displayMain();
-        },
-
-        /**
-         * Gets the elements from the page if they are not already fetched.
+         * Gets the elements from the page.
          *
          * @return {boolean}
          */
@@ -78,11 +53,6 @@ const ContactForm = (function(){
 
             const $self = this;
 
-            if($self._elementsPresent){
-
-                return true;
-            }
-
             $self._cfNameElement = $('CFname');
             $self._cfEmailElement = $('CFemail');
             $self._cfPhoneElement = $('CFphone');
@@ -90,7 +60,7 @@ const ContactForm = (function(){
             $self._cfMessageElement = $('CFmessage');
             $self._cfSendButton = $('CFsendButton');
 
-            $self._elementsPresent = (
+            return (
                 $self._cfNameElement !== null
                 && $self._cfEmailElement !== null
                 && $self._cfPhoneElement !== null
@@ -98,8 +68,22 @@ const ContactForm = (function(){
                 && $self._cfMessageElement !== null
                 && $self._cfSendButton !== null
             );
+        },
 
-            return $self._elementsPresent;
+        /**
+         * Attaches the DOM element events.
+         *
+         * @return void
+         */
+
+        attachDomElementEvents(){
+
+            const $self = this;
+
+            $self._cfSendButton.addEvent('click', function () {
+
+                $self.sendMailToCloudService();
+            });
         },
 
         /**
@@ -143,20 +127,6 @@ const ContactForm = (function(){
                 DevelopmentHelpers.setButtonTriggeredState('CFsendButton', false);
                 console.error('ContactForm.sendMailToCloudService(): reCAPTCHA skipped!');
                 CustomMessage.showMessage('Отбележете, че не сте робот.');
-                return;
-            }
-
-            // First get the DOM elements, at least try.
-            if(!$self.getDomElements()){
-
-                // Reset reCAPTCHA
-                grecaptcha.reset();
-
-                // Indicate that the sending process has finished.
-                DevelopmentHelpers.setButtonTriggeredState('CFsendButton', false);
-                console.log('ContactForm.sendMailToCloudService(): Problem with presence' +
-                    ' of DOM elements!');
-                CustomMessage.showMessage('Проблем при зареждането на страницата. Моля обновете страницата.');
                 return;
             }
 
@@ -219,27 +189,6 @@ const ContactForm = (function(){
                     }
                 }
             }).send();
-        },
-
-        /**
-         * Loads the reCAPTCHA API after the ContactForm module
-         * is for sure initialized and displayed.
-         *
-         * Currently uses a tricky solution. An img tag is loaded
-         * on the DOM from this module's template, which has its
-         * src attribute empty. Taking advantage of onerror
-         * event, we make sure that this function gets called.
-         *
-         * @return void
-         */
-
-        loadRecaptchaApi(){
-
-            let $head= document.getElementsByTagName('head')[0];
-            let $script= document.createElement('script');
-            $script.type= 'text/javascript';
-            $script.src= 'https://www.google.com/recaptcha/api.js';
-            $head.appendChild($script);
         }
     };
 
@@ -248,16 +197,6 @@ const ContactForm = (function(){
         init(){
 
             Logic.init();
-        },
-
-        sendMailToCloudService(){
-
-            Logic.sendMailToCloudService();
-        },
-
-        loadRecaptchaApi(){
-
-            Logic.loadRecaptchaApi();
         }
     }
 })();
