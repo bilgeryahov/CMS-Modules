@@ -37,6 +37,7 @@ const ContactForm = (function(){
             const $self = this;
             if(!$self.getDomElements()){
 
+                console.error('ContactForm.init(): DOM elements have not been fetched successfully!');
                 return;
             }
 
