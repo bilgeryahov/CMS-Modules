@@ -4,7 +4,7 @@
  * CustomMessage module controller.
  *
  * @author Bilger Yahov <bayahov1@gmail.com>
- * @version 1.0.0
+ * @version 2.0.0
  * @copyright © 2017 Bilger Yahov, all rights reserved.
  */
 
@@ -12,9 +12,14 @@ const CustomMessage = (function(){
 
     const Logic = {
 
-        _templatePath: './CMS-Modules/CMS-Modules/Modules/CustomMessage/custom_message.html',
-        _placeholderName: 'CustomMessagePlaceholder',
+        _module: null,
         _template: null,
+        _source: null,
+        _compiled: null,
+
+        _customMessageCloseSpan: null,
+
+        _problemWhileRendering: false,
 
         /**
          * Initialize the main functionality.
@@ -25,25 +30,82 @@ const CustomMessage = (function(){
         init(){
 
             const $self = this;
+            if(!$self.renderTemplate('')){
 
-            $self.renderTemplate();
+                $self._problemWhileRendering = true;
+                return;
+            }
+
+            if(!$self.getDomElements()){
+
+                return;
+            }
+
+            $self.attachDomElementEvents();
         },
 
         /**
          * Renders the template.
          *
-         * @return void
+         * @param $data
+         *
+         * @return {boolean}
          */
 
-        renderTemplate(){
+        renderTemplate($data){
 
             const $self = this;
 
-            $self._template = new Template(
-                $self._templatePath, $self._placeholderName, {}
-            );
+            $self._module = $('CustomMessageModule');
+            $self._template = $('CustomMessageTemplate');
 
-            $self._template.prepareMain();
+            if(!$self._module || !$self._template){
+
+                console.error('CustomMessage.renderTemplate(): CustomMessageModule or ' +
+                    'CustomMessageTemplate is not found!');
+                return false;
+            }
+
+            $self._source = $self._template.get('html');
+            $self._compiled = Handlebars.compile($self._source);
+            $self._module.set('html',  $self._compiled( { message : $data } ));
+
+            return true;
+        },
+
+        /**
+         * Tries to fetch the DOM elements.
+         *
+         * @return {boolean}
+         */
+
+        getDomElements(){
+
+            const $self = this;
+
+            $self._customMessageCloseSpan = $('CustomMessageCloseSpan');
+            if (!$self._customMessageCloseSpan) {
+
+                console.error('CustomMessage.getDomElements(): CustomMessageCloseSpan is missing!');
+                return false;
+            }
+
+            return true;
+        },
+
+        /**
+         * Attaches the DOM element events.
+         *
+         * @return void
+         */
+
+        attachDomElementEvents(){
+
+            const $self = this;
+            $self._customMessageCloseSpan.addEvent('click', function () {
+
+               $self.closeMessage();
+            });
         },
 
         /**
@@ -56,23 +118,41 @@ const CustomMessage = (function(){
 
         showMessage($message){
 
-            const $self = this;
-            $self._template.displayAfter( { message : $message } );
+            const $self  = this;
+            if($self._problemWhileRendering){
 
-            // Since this is also hidden, display it.
-            $self._template.makeVisible();
+                return;
+            }
+
+            $self._module.set('html',  $self._compiled( { message : $message } ));
+
+            /*
+             * After setting the Module with the new content,
+             * the events should be attached again.
+             */
+
+            if($self.getDomElements()){
+
+                $self.attachDomElementEvents();
+                $self._module.style.display = 'block';
+            }
+            else{
+
+                console.error('CustomMessage.showMessage(): Something went wrong after trying ' +
+                    'to show a message...');
+            }
         },
 
         /**
-         * Hides the message box.
+         * Closes the message box.
          *
          * @return void
          */
 
-        hideMessage(){
+        closeMessage(){
 
             const $self = this;
-            $self._template.makeInvisible();
+            $self._module.style.display = 'none';
         }
     };
 
@@ -86,11 +166,6 @@ const CustomMessage = (function(){
         showMessage($message){
 
             Logic.showMessage($message);
-        },
-
-        hideMessage(){
-
-            Logic.hideMessage();
         }
     }
 })();
