@@ -12,6 +12,7 @@ const CustomMessage = (function(){
 
     const Logic = {
 
+        // Object's attributes, since used in show and close message box.
         _module: null,
         _template: null,
         _source: null,
@@ -19,6 +20,9 @@ const CustomMessage = (function(){
 
         _customMessageCloseSpan: null,
 
+        // Will put a flag if there is a problem with
+        // initial rendering, so then message box
+        // cannot be shown.
         _problemWhileRendering: false,
 
         /**
@@ -32,6 +36,7 @@ const CustomMessage = (function(){
             const $self = this;
             if(!$self.renderTemplate('')){
 
+                // Make sure no one can try to show a message.
                 $self._problemWhileRendering = true;
                 return;
             }
@@ -121,6 +126,8 @@ const CustomMessage = (function(){
             const $self  = this;
             if($self._problemWhileRendering){
 
+                console.error('CustomMessage.showMessage(): Cannot display the Custom Message,' +
+                    ' since the has been a problem while rendering the template initially.');
                 return;
             }
 
