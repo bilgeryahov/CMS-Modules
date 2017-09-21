@@ -13,12 +13,14 @@ const Login = (function(){
 	const Logic = {
 
 		// Login's form elements
-		_inputEmail: {},
-		_inputPassword: {},
-		_loginButton: {},
+		_inputEmail: null,
+		_inputPassword: null,
+		_loginButton: null,
+		_loader: null,
+		_loginModal: null,
 
 		// Login's Auth Observer
-		_authObserver: {},
+		_authObserver: null,
 
 		/**
 		 * Initializes the main functionality.
@@ -64,9 +66,29 @@ const Login = (function(){
 				}
 				else if($update === 'USER 0'){
 
+					if($self._loginModal.hasClass('Hidden')){
+
+						$self._loginModal.removeClass('Hidden');
+					}
+
+					if(!$self._loader.hasClass('Hidden')){
+
+						$self._loader.addClass('Hidden');
+					}
+
 					console.log('Login: user is not here.');
 				}
 				else if($update === 'ERROR 1'){
+
+					if($self._loginModal.hasClass('Hidden')){
+
+						$self._loginModal.removeClass('Hidden');
+					}
+
+					if(!$self._loader.hasClass('Hidden')){
+
+						$self._loader.addClass('Hidden');
+					}
 
 					// Problem while logging in!
 					console.error('Login: ' + FirebaseAuthenticationManager.getAuthError());
@@ -105,14 +127,18 @@ const Login = (function(){
 
 			const $self = this;
 
-			$self._loginButton = $('LoginButton');
-			$self._inputEmail = $('InputEmail');
+			$self._loginButton   = $('LoginButton');
+			$self._inputEmail    = $('InputEmail');
 			$self._inputPassword = $('InputPassword');
+			$self._loader        = $('Loader');
+			$self._loginModal    = $('LoginModal');
 
 			return (
 				$self._loginButton !== null
 				&& $self._inputEmail !== null
 				&& $self._inputPassword !== null
+				&& $self._loader !== null
+				&& $self._loginModal !== null
 			);
 		},
 
@@ -132,6 +158,15 @@ const Login = (function(){
 				&& DevelopmentHelpers.validateCorrectness($self._inputPassword.value, 'password')
 			)
 			{
+				if($self._loader.hasClass('Hidden')){
+
+					$self._loader.removeClass('Hidden');
+				}
+
+				if(!$self._loginModal.hasClass('Hidden')){
+
+					$self._loginModal.addClass('Hidden');
+				}
 
 				FirebaseAuthenticationManager.login($self._inputEmail.value, $self._inputPassword.value);
 			}
