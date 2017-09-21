@@ -12,12 +12,10 @@ const Logout = (function(){
 
     const Logic = {
 
-        _templatePath: './CMS-Modules/CMS-Modules/Modules/Logout/logout.html',
-        _placeholderName: 'LogoutPlaceholder',
-        _template: null,
-
         // Logout's Auth Observer
         _authObserver: {},
+
+        _logoutButton: null,
 
         /**
          * Initializes the main functionality.
@@ -41,7 +39,14 @@ const Logout = (function(){
                 return;
             }
 
-            $self.renderTemplate();
+	        // Get the Logout form elements.
+	        if(!$self.getLogoutFormElements()){
+
+		        console.error('Logout.init(): Logout form elements are not present! Aborting.');
+		        return;
+	        }
+
+	        $self.attachDomElementEvents();
 
             // Create a new Observer for the Auth state.
             $self._authObserver = new Observer();
@@ -71,24 +76,41 @@ const Logout = (function(){
             FirebaseAuthenticationManager.getAuthObserverManager().addObserver($self._authObserver);
         },
 
-        /**
-         * Renders the template.
-         *
-         * @return void
-         */
+	    /**
+	     * Attaches the needed DOM events to the Logout Form Elements.
+	     *
+	     * @return void
+	     */
 
-        renderTemplate(){
+	    attachDomElementEvents(){
 
-            const $self = this;
+		    const $self = this;
 
-            $self._template = new Template(
-                $self._templatePath, $self._placeholderName, {}
-            );
+		    $self._logoutButton.addEvent('click', function () {
 
-            $self._template.displayMain();
-        },
+			    $self.attemptLogout();
+		    });
+	    },
 
-        /**
+	    /**
+	     * Fetches all the Logout Form elements from the DOM.
+	     * If something goes wrong, false is returned. Otherwise true.
+	     *
+	     * @return {boolean}
+	     */
+
+	    getLogoutFormElements(){
+
+		    const $self = this;
+
+		    $self._logoutButton = $('LogoutButton');
+
+		    return (
+			    $self._logoutButton !== null
+		    );
+	    },
+
+	    /**
          * Try to logout the current user.
          *
          * @return void
@@ -105,11 +127,6 @@ const Logout = (function(){
         init(){
 
             Logic.init();
-        },
-
-        attemptLogout(){
-
-            Logic.attemptLogout();
         }
     }
 })();
