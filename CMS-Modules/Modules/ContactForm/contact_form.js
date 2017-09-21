@@ -12,19 +12,19 @@ const ContactForm = (function(){
 
     const Logic = {
 
-        _cfNameElement        : {},
-        _cfEmailElement       : {},
-        _cfPhoneElement       : {},
-        _cfSubjectElement     : {},
-        _cfMessageElement     : {},
+        _cfNameElement        : null,
+        _cfEmailElement       : null,
+        _cfPhoneElement       : null,
+        _cfSubjectElement     : null,
+        _cfMessageElement     : null,
 
-        _cfNameValue          : '',
-        _cfEmailValue         : '',
-        _cfPhoneValue         : '',
-        _cfSubjectValue       : '',
-        _cfMessageValue       : '',
+        _cfNameValue          : null,
+        _cfEmailValue         : null,
+        _cfPhoneValue         : null,
+        _cfSubjectValue       : null,
+        _cfMessageValue       : null,
 
-        _cfSendButton         : {},
+        _cfSendButton         : null,
 
         /**
          * Initializes the main functionality.
