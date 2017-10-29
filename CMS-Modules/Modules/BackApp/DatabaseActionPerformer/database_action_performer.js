@@ -12,7 +12,10 @@ const DatabaseActionPerformer = (function(){
 
 	const Logic = {
 
+		init(){
 
+			alert('DatabaseActionPerformer.init(): Initialized!');
+		}
 	};
 
 	return{
