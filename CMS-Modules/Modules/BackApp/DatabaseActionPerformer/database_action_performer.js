@@ -32,6 +32,12 @@ const DatabaseActionPerformer = (function(){
 				return;
 			}
 
+			if(!FirebaseDatabaseClient){
+
+				console.error('DatabaseActionPerformer.init(): Missing FirebaseDatabaseClient');
+				return;
+			}
+
 			$self.attachDomElementEvents();
 		},
 
@@ -104,7 +110,24 @@ const DatabaseActionPerformer = (function(){
 
 		doGet(){
 
-			alert('I do get');
+			let $pathNodes = ['products', 'categories_details'];
+			let $path = DevelopmentHelpers.constructPath($pathNodes);
+			let $extra = {};
+
+			FirebaseDatabaseClient.firebaseGET($path, $extra, function ($error, $data) {
+
+				if($error){
+
+					console.error($error);
+					return;
+				}
+
+				if($data){
+
+					console.log($data);
+					return;
+				}
+			});
 		},
 
 		/**
