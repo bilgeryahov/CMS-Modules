@@ -18,6 +18,8 @@ const DatabaseActionPerformer = (function(){
 		_deleteButton: null,
 		_multiLocationUpdateButton: null,
 
+		_lastCreated: null,
+
 		/**
 		 * Initializes the main functionality.
 		 */
@@ -138,7 +140,28 @@ const DatabaseActionPerformer = (function(){
 
 		doPut(){
 
-			alert('I do put');
+			const $self = this;
+
+			let $pathNodes = ['products', 'categories_details', $self._lastCreated.name];
+			let $path = DevelopmentHelpers.constructPath($pathNodes);
+			let $putData = {
+				display_name: 'DatabaseActionPerformer' + Math.random() + 'Changed'
+			};
+
+			FirebaseDatabaseClient.firebasePOST($path, $putData, function ($error, $data) {
+
+				if($error){
+
+					console.error($error);
+					return;
+				}
+
+				if($data){
+
+					console.log($data);
+					return;
+				}
+			});
 		},
 
 		/**
@@ -148,6 +171,8 @@ const DatabaseActionPerformer = (function(){
 		 */
 
 		doPost(){
+
+			const $self = this;
 
 			let $pathNodes = ['products', 'categories_details'];
 			let $path = DevelopmentHelpers.constructPath($pathNodes);
@@ -166,6 +191,7 @@ const DatabaseActionPerformer = (function(){
 				if($data){
 
 					console.log($data);
+					$self._lastCreated = $data;
 					return;
 				}
 			});
