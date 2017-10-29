@@ -104,7 +104,7 @@ const DatabaseActionPerformer = (function(){
 
 		doGet(){
 
-
+			alert('I do get');
 		},
 
 		/**
@@ -115,7 +115,7 @@ const DatabaseActionPerformer = (function(){
 
 		doPut(){
 
-
+			alert('I do put');
 		},
 
 		/**
@@ -126,7 +126,7 @@ const DatabaseActionPerformer = (function(){
 
 		doPost(){
 
-
+			alert('I do post');
 		},
 
 		/**
@@ -137,7 +137,7 @@ const DatabaseActionPerformer = (function(){
 
 		doDelete(){
 
-
+			alert('I do delete');
 		},
 
 		/**
@@ -148,7 +148,7 @@ const DatabaseActionPerformer = (function(){
 
 		doMultiLocationUpdate(){
 
-
+			alert('I do multi location update');
 		}
 	};
 
