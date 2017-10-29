@@ -148,7 +148,7 @@ const DatabaseActionPerformer = (function(){
 				display_name: 'DatabaseActionPerformer' + Math.random() + 'Changed'
 			};
 
-			FirebaseDatabaseClient.firebasePOST($path, $putData, function ($error, $data) {
+			FirebaseDatabaseClient.firebasePUT($path, $putData, function ($error, $data) {
 
 				if($error){
 
@@ -191,7 +191,7 @@ const DatabaseActionPerformer = (function(){
 				if($data){
 
 					console.log($data);
-					$self._lastCreated = $data;
+					$self._lastCreated = JSON.decode($data);
 					return;
 				}
 			});
