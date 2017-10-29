@@ -19,6 +19,7 @@ const DatabaseActionPerformer = (function(){
 		_multiLocationUpdateButton: null,
 
 		_lastCreated: null,
+		_multiLocationUpdatePairs: null,
 
 		/**
 		 * Initializes the main functionality.
@@ -39,6 +40,8 @@ const DatabaseActionPerformer = (function(){
 				console.error('DatabaseActionPerformer.init(): Missing FirebaseDatabaseClient');
 				return;
 			}
+
+			$self._multiLocationUpdatePairs = {};
 
 			$self.attachDomElementEvents();
 		},
@@ -234,7 +237,70 @@ const DatabaseActionPerformer = (function(){
 
 		doMultiLocationUpdate(){
 
-			alert('I do multi location update');
+			const $self = this;
+
+			let $pathNodes = ['products', 'categories_details'];
+			let $path = DevelopmentHelpers.constructPath($pathNodes);
+			let $postData = {
+				display_name: 'DatabaseActionPerformer' + Math.random() +'CreatedForMultiLocationUpdate1'
+			};
+
+			FirebaseDatabaseClient.firebasePOST($path, $postData, function ($error, $data) {
+
+				if($error){
+
+					console.error($error);
+					return;
+				}
+
+				if($data){
+
+					console.log('First one created');
+					$self._multiLocationUpdatePairs['/products/categories_details/' + JSON.decode($data).name] = {
+						name: 'I was part of a multi location update'
+					};
+
+					let $postData = {
+						display_name: 'DatabaseActionPerformer' + Math.random() +'CreatedForMultiLocationUpdate2'
+					};
+
+					FirebaseDatabaseClient.firebasePOST($path, $postData, function ($error, $data) {
+
+						if($error){
+
+							console.error($error);
+							return;
+						}
+
+						if($data){
+
+							console.log('Second one created');
+							$self._multiLocationUpdatePairs['/products/categories_details/' + JSON.decode($data).name] = {
+								name: 'I was part of a multi location update'
+							};
+							return $doTheActualUpdate();
+						}
+					});
+				}
+			});
+
+			const $doTheActualUpdate = function () {
+
+				FirebaseDatabaseClient.firebasePerformMultiLocationUpdate($self._multiLocationUpdatePairs, function ($error, $data) {
+
+					if($error){
+
+						console.error($error);
+						return;
+					}
+
+					if($data){
+
+						console.log($data);
+						return;
+					}
+				})
+			};
 		}
 	};
 
