@@ -14,7 +14,7 @@ const DatabaseActionPerformer = (function(){
 
 		init(){
 
-			alert('DatabaseActionPerformer.init(): Initialized!');
+			console.info('DatabaseActionPerformer.init(): Initialized!');
 		}
 	};
 
