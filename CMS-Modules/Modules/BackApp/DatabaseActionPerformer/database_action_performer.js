@@ -149,7 +149,26 @@ const DatabaseActionPerformer = (function(){
 
 		doPost(){
 
-			alert('I do post');
+			let $pathNodes = ['products', 'categories_details'];
+			let $path = DevelopmentHelpers.constructPath($pathNodes);
+			let $postData = {
+				display_name: 'DatabaseActionPerformer' + Math.random()
+			};
+
+			FirebaseDatabaseClient.firebasePOST($path, $postData, function ($error, $data) {
+
+				if($error){
+
+					console.error($error);
+					return;
+				}
+
+				if($data){
+
+					console.log($data);
+					return;
+				}
+			});
 		},
 
 		/**
