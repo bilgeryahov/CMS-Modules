@@ -205,7 +205,25 @@ const DatabaseActionPerformer = (function(){
 
 		doDelete(){
 
-			alert('I do delete');
+			const $self = this;
+
+			let $pathNodes = ['products', 'categories_details', $self._lastCreated.name];
+			let $path = DevelopmentHelpers.constructPath($pathNodes);
+
+			FirebaseDatabaseClient.firebaseDELETE($path, function ($error, $data) {
+
+				if($error){
+
+					console.error($error);
+					return;
+				}
+
+				if($data){
+
+					console.log($data);
+					return;
+				}
+			});
 		},
 
 		/**
