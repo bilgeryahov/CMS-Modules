@@ -16,6 +16,9 @@ const Logout = (function(){
         _authObserver: {},
 
         _logoutButton: null,
+	    _openSidebarButton: null,
+	    _sidebar: null,
+	    _overlay: null,
 
         /**
          * Initializes the main functionality.
@@ -123,6 +126,11 @@ const Logout = (function(){
 
 			    $self.attemptLogout();
 		    });
+
+		    $self._openSidebarButton.addEvent('click', function () {
+
+		    	$self.toggleSidebar();
+		    });
 	    },
 
 	    /**
@@ -137,10 +145,32 @@ const Logout = (function(){
 		    const $self = this;
 
 		    $self._logoutButton = $('LogoutButton');
+		    $self._overlay = $('Overlay');
+		    $self._sidebar = $('Sidebar');
+		    $self._openSidebarButton = $('OpenSidebarButton');
 
 		    return (
 			    $self._logoutButton !== null
+			    && $self._overlay !== null
+			    && $self._sidebar !== null
+			    && $self._openSidebarButton !== null
 		    );
+	    },
+
+	    toggleSidebar(){
+
+	    	const $self = this;
+
+		    if ($self._sidebar.style.display === 'block'){
+
+			    $self._sidebar.style.display = 'none';
+			    $self._overlay.style.display = 'none';
+		    }
+		    else{
+
+			    $self._sidebar.style.display = 'block';
+			    $self._overlay.style.display = 'block';
+		    }
 	    },
 
 	    /**
