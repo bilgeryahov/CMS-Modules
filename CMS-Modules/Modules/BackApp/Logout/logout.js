@@ -39,15 +39,6 @@ const Logout = (function(){
                 return;
             }
 
-	        // Get the Logout form elements.
-	        if(!$self.getLogoutFormElements()){
-
-		        console.error('Logout.init(): Logout form elements are not present! Aborting.');
-		        return;
-	        }
-
-	        $self.attachDomElementEvents();
-
             // Create a new Observer for the Auth state.
             $self._authObserver = new Observer();
 
@@ -74,7 +65,49 @@ const Logout = (function(){
 
             // Add my Auth Observer as an observer to FirebaseAuthenticationManager's ObserverManager.
             FirebaseAuthenticationManager.getAuthObserverManager().addObserver($self._authObserver);
+
+	        if(!$self.renderTemplate({})){
+
+	        	console.error('Logout.init(): Problem with template rendering. Aborting!');
+		        return;
+	        }
+
+	        // Get the Logout form elements.
+	        if(!$self.getLogoutFormElements()){
+
+		        console.error('Logout.init(): Logout form elements are not present! Aborting.');
+		        return;
+	        }
+
+	        $self.attachDomElementEvents();
         },
+
+	    /**
+	     * Renders the template.
+	     *
+	     * @param $data
+	     *
+	     * @return {boolean}
+	     */
+
+	    renderTemplate($data){
+
+		    const $module = $('LogoutModule');
+		    const $template = $('LogoutTemplate');
+
+		    if(!$module || !$template){
+
+			    console.error('Logout.renderTemplate(): LogoutModule or ' +
+				    'LogoutTemplate is not found!');
+			    return false;
+		    }
+
+		    const $source = $template.get('html');
+		    const $compiled = Handlebars.compile($source);
+		    $module.set('html', $compiled( { pages : $data } ));
+
+		    return true;
+	    },
 
 	    /**
 	     * Attaches the needed DOM events to the Logout Form Elements.
